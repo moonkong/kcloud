@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kcloud.umc.mapper.SysUserMapper">
+	<!-- 通用查询映射结果 -->
+	<resultMap id="baseResultMap" type="com.kcloud.umc.model.vo.UserVO">
+		<id column="user_id" property="userId"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="phone" property="phone"/>
+		<result column="avatar" property="avatar"/>
+		<result column="wx_openid" property="wxOpenid"/>
+		<result column="dd_openid" property="ddOpenid"/>
+		<result column="ucreate_time" property="createTime"/>
+		<result column="uupdate_time" property="updateTime"/>
+		<result column="lock_flag" property="lockFlag"/>
+		<result column="udel_flag" property="delFlag"/>
+		<result column="deptId" property="deptId"/>
+		<result column="tenantId" property="tenantId"/>
+		<result column="deptName" property="deptName"/>
+
+		<result property="realName" column="real_name"/>
+		<result property="realNameEn" column="real_name_en"/>
+		<result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+		<result property="namePinyin" column="name_pinyin"/>
+		<result property="namePinyinLen" column="name_pinyin_len"/>
+		<result property="namePinyinShort" column="name_pinyin_short"/>
+		<result property="gender" column="gender"/>
+		<result property="position" column="position"/>
+		<result property="positionEn" column="position_en"/>
+		<result property="extraJobFlag" column="extra_job_flag"/>
+		<result property="mail" column="mail"/>
+		<result property="homePhone" column="home_phone"/>
+		<result property="ord" column="ord"/>
+		<result property="entrySource" column="entry_source"/>
+		<result property="entryid" column="entryid"/>
+		<result property="entrypid" column="entrypid"/>
+
+		<collection property="roleList" ofType="com.kcloud.umc.model.entity.SysRole"
+					select="com.kcloud.umc.mapper.SysRoleMapper.listRolesByUserId" column="user_id">
+		</collection>
+	</resultMap>
+
+	<!-- userVo结果集 -->
+	<resultMap id="userVoResultMap" type="com.kcloud.umc.model.vo.UserVO">
+		<id column="user_id" property="userId"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="phone" property="phone"/>
+		<result column="avatar" property="avatar"/>
+		<result column="wx_openid" property="wxOpenid"/>
+		<result column="dd_openid" property="ddOpenid"/>
+		<result column="ucreate_time" property="createTime"/>
+		<result column="uupdate_time" property="updateTime"/>
+		<result column="lock_flag" property="lockFlag"/>
+		<result column="udel_flag" property="delFlag"/>
+		<result column="deptId" property="deptId"/>
+		<result column="tenantId" property="tenantId"/>
+		<result column="deptName" property="deptName"/>
+
+		<result property="realName" column="real_name"/>
+		<result property="realNameEn" column="real_name_en"/>
+		<result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+		<result property="namePinyin" column="name_pinyin"/>
+		<result property="namePinyinLen" column="name_pinyin_len"/>
+		<result property="namePinyinShort" column="name_pinyin_short"/>
+		<result property="gender" column="gender"/>
+		<result property="position" column="position"/>
+		<result property="positionEn" column="position_en"/>
+		<result property="extraJobFlag" column="extra_job_flag"/>
+		<result property="mail" column="mail"/>
+		<result property="homePhone" column="home_phone"/>
+		<result property="ord" column="ord"/>
+		<result property="entrySource" column="entry_source"/>
+		<result property="entryid" column="entryid"/>
+		<result property="entrypid" column="entrypid"/>
+
+		<collection property="roleList" ofType="com.kcloud.umc.model.entity.SysRole">
+			<id column="role_id" property="roleId"/>
+			<result column="role_name" property="roleName"/>
+			<result column="role_code" property="roleCode"/>
+			<result column="role_desc" property="roleDesc"/>
+			<result column="rcreate_time" property="createTime"/>
+			<result column="rupdate_time" property="updateTime"/>
+		</collection>
+	</resultMap>
+
+	<sql id="userRoleSql">
+		`user`.user_id,
+		`user`.username,
+		`user`.`password`,
+		`user`.salt,
+		`user`.phone,
+		`user`.avatar,
+		`user`.wx_openid,
+		`user`.dd_openid,
+		`user`.dept_id,
+		`user`.create_time AS ucreate_time,
+		`user`.update_time AS uupdate_time,
+		`user`.del_flag AS udel_flag,
+		`user`.lock_flag AS lock_flag,
+		`user`.dept_id AS deptId,
+		`user`.tenant_id AS tenantId,
+
+		`user`.real_name,
+		`user`.real_name_en,
+		`user`.first_name,
+		`user`.last_name,
+		`user`.name_pinyin,
+		`user`.name_pinyin_len,
+		`user`.name_pinyin_short,
+		`user`.gender,
+		`user`.position,
+		`user`.position_en,
+		`user`.extra_job_flag,
+		`user`.mail,
+		`user`.home_phone,
+		`user`.ord,
+		`user`.entry_source,
+		`user`.entryid,
+		`user`.entrypid,
+
+		r.role_id,
+		r.role_name,
+		r.role_code,
+		r.role_desc,
+		r.create_time AS rcreate_time,
+		r.update_time AS rupdate_time
+	</sql>
+
+	<sql id="userRoleDeptSql">
+		`user`.user_id,
+		`user`.username,
+		`user`.`password`,
+		`user`.salt,
+		`user`.phone,
+		`user`.avatar,
+		`user`.wx_openid,
+		`user`.dd_openid,
+		`user`.create_time AS ucreate_time,
+		`user`.update_time AS uupdate_time,
+		`user`.del_flag AS udel_flag,
+		`user`.lock_flag AS lock_flag,
+		`user`.tenant_id AS tenantId,
+
+		`user`.real_name,
+		`user`.real_name_en,
+		`user`.first_name,
+		`user`.last_name,
+		`user`.name_pinyin,
+		`user`.name_pinyin_len,
+		`user`.name_pinyin_short,
+		`user`.gender,
+		`user`.position,
+		`user`.position_en,
+		`user`.extra_job_flag,
+		`user`.mail,
+		`user`.home_phone,
+		`user`.ord,
+		`user`.entry_source,
+		`user`.entryid,
+		`user`.entrypid,
+
+		r.role_id,
+		r.role_name,
+		r.role_code,
+		r.role_desc,
+		r.create_time AS rcreate_time,
+		r.update_time AS rupdate_time,
+		d.name AS deptName,
+		d.dept_id AS deptId
+    </sql>
+
+
+	<select id="getUserVoById" resultMap="userVoResultMap">
+        SELECT
+	   		<include refid="userRoleDeptSql"/>
+        FROM
+            sys_user AS `user`
+            LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
+            LEFT JOIN sys_role AS r ON r.role_id = ur.role_id AND r.del_flag=0
+            LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id AND d.del_flag=0
+        WHERE
+           `user`.user_id = #{id} and `user`.del_flag=0
+    </select>
+
+	<select id="getUserVoListByTenantId" resultMap="userVoResultMap">
+		SELECT
+		<include refid="userRoleDeptSql"/>
+		FROM
+		sys_user AS `user`
+		LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
+		LEFT JOIN sys_role AS r ON r.role_id = ur.role_id AND r.del_flag=0
+		LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id AND d.del_flag=0
+		WHERE
+		`user`.tenant_id = #{tenantId} and `user`.del_flag=0
+	</select>
+
+	<select id="getUserVosPage" resultMap="baseResultMap">
+		SELECT
+		`user`.user_id,
+		`user`.username,
+		`user`.`password`,
+		`user`.salt,
+		`user`.phone,
+		`user`.avatar,
+		`user`.wx_openid,
+		`user`.dd_openid,
+		`user`.dept_id,
+		`user`.create_time AS ucreate_time,
+		`user`.update_time AS uupdate_time,
+		`user`.del_flag AS udel_flag,
+		`user`.lock_flag AS lock_flag,
+		`user`.dept_id AS deptId,
+		`user`.tenant_id AS tenantId,
+
+		`user`.real_name,
+		`user`.real_name_en,
+		`user`.first_name,
+		`user`.last_name,
+		`user`.name_pinyin,
+		`user`.name_pinyin_len,
+		`user`.name_pinyin_short,
+		`user`.gender,
+		`user`.position,
+		`user`.position_en,
+		`user`.extra_job_flag,
+		`user`.mail,
+		`user`.home_phone,
+		`user`.ord,
+		`user`.entry_source,
+		`user`.entryid,
+		`user`.entrypid
+		FROM
+		sys_user AS `user`
+		LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id AND d.del_flag=0
+		<where>
+			<if test="query.username != null and query.username != ''">
+				and `user`.username LIKE CONCAT('%',#{query.username},'%')
+			</if>
+			<if test="query.deptId != null and query.deptId != ''">
+				and `user`.dept_id = #{query.deptId}
+			</if>
+			and `user`.del_flag=0
+		</where>
+		ORDER BY `user`.create_time DESC
+	</select>
+
+</mapper>

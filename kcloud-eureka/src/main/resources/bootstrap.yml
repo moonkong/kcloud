@@ -1,0 +1,36 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: kcloud-eureka
+  cloud:
+    config:
+      enabled: false
+# docker-compose部署时候 hostname kcloud-eureka
+# 类似的 redis 使用kcloud-redis ,gateway 换成 kcloud-gateway
+eureka:
+  instance:
+    hostname: kcloud-eureka
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://test:test@localhost:${server.port}/eureka/
+  server:
+    # eureka server清理无效节点的时间间隔，默认60000毫秒，即60秒
+    eviction-interval-timer-in-ms: 4000
+    enable-self-preservation: false
+    renewal-percent-threshold: 0.9
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  file: logs/${spring.application.name}/debug.log
+  level:
+    root: info

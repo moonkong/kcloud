@@ -1,0 +1,53 @@
+server:
+  port: 4000
+
+spring:
+  application:
+    name: kcloud-umc
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kcloud-umc?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: root
+# 注册中心配置
+eureka:
+  instance:
+    prefer-ip-address: true
+    # eureka client发送心跳给server端的频率，默认是30秒，也就是每30秒会向Eureka Server发起Renew更新操作。
+    leaseRenewalIntervalInSeconds: 10
+    # 服务失效时间。默认是90秒，也就是如果Eureka Server在90秒内没有接收到来自ServiceProvider的Renew操作，就会把Service Provider剔除。
+    leaseExpirationDurationInSeconds: 30
+  client:
+    service-url:
+      defaultZone: http://test:test@localhost:8761/eureka/
+
+# mybaits-plus配置
+mybatis-plus:
+  # MyBatis Mapper所对应的XML文件位置
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    # 开启 SQL 解析缓存注解生效
+    sql-parser-cache: true
+    # 关闭MP3.0自带的banner
+    banner: false
+    db-config:
+      # 主键类型 0:数据库ID自增 1.未定义 2.用户输入 3 id_worker 4.uuid 5.id_worker字符串表示
+      id-type: 0
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: 1
+      # 默认数据库表下划线命名
+      table-underline: true
+      # 逻辑删除配置
+      # 逻辑删除全局值（1表示已删除，这也是Mybatis Plus的默认配置）
+      logic-delete-value: 1
+      # 逻辑未删除全局值（0表示未删除，这也是Mybatis Plus的默认配置）
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  file: logs/${spring.application.name}/debug.log
+  level:
+    root: info
